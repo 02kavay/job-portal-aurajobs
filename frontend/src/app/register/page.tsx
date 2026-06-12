@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { FiMail, FiLock, FiUserCheck, FiUsers, FiUser } from 'react-icons/fi';
+import { API_BASE_URL } from '@/config';
 
 export default function Register() {
   const router = useRouter();
@@ -28,7 +29,7 @@ export default function Register() {
     setLoading(true);
 
     try {
-      const res = await fetch('http://localhost:5000/api/auth/register', {
+      const res = await fetch(`${API_BASE_URL}/api/auth/register`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password, role })

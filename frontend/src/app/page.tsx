@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { FiSearch, FiMapPin, FiBriefcase, FiDollarSign, FiClock, FiFileText, FiChevronRight, FiZap, FiCheckCircle } from 'react-icons/fi';
+import { API_BASE_URL } from '@/config';
 
 interface Job {
   id: string;
@@ -51,7 +52,7 @@ export default function Home() {
   const fetchJobs = async (searchVal = '', locVal = '', typeVal = 'All') => {
     setLoading(true);
     try {
-      let url = 'http://localhost:5000/api/jobs';
+      let url = `${API_BASE_URL}/api/jobs`;
       const params = new URLSearchParams();
       if (searchVal) params.append('search', searchVal);
       if (locVal) params.append('location', locVal);
@@ -105,7 +106,7 @@ export default function Home() {
     setApplying(true);
     setApplyError('');
     try {
-      const res = await fetch('http://localhost:5000/api/applications', {
+      const res = await fetch(`${API_BASE_URL}/api/applications`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

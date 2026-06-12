@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { FiPlus, FiBriefcase, FiUsers, FiMapPin, FiCalendar, FiDollarSign, FiClock, FiSettings, FiCheckCircle, FiChevronRight, FiGrid, FiList } from 'react-icons/fi';
+import { API_BASE_URL } from '@/config';
 
 interface Job {
   id: string;
@@ -55,7 +56,7 @@ export default function RecruiterDashboard() {
 
   const fetchJobs = async () => {
     try {
-      const res = await fetch('http://localhost:5000/api/jobs/recruiter', {
+      const res = await fetch(`${API_BASE_URL}/api/jobs/recruiter`, {
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`
         }
@@ -77,7 +78,7 @@ export default function RecruiterDashboard() {
     setError('');
 
     try {
-      const res = await fetch('http://localhost:5000/api/jobs', {
+      const res = await fetch(`${API_BASE_URL}/api/jobs`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

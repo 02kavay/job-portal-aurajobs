@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { FiSliders, FiList, FiZap, FiCheckCircle, FiFileText, FiMapPin, FiDollarSign, FiClock, FiCheck, FiInfo, FiUser, FiArrowRight } from 'react-icons/fi';
+import { API_BASE_URL } from '@/config';
 
 interface Job {
   id: string;
@@ -80,7 +81,7 @@ export default function SeekerDashboard() {
       };
 
       if (activeTab === 'recommendations') {
-        const res = await fetch('http://localhost:5000/api/jobs/recommendations', { headers });
+        const res = await fetch(`${API_BASE_URL}/api/jobs/recommendations`, { headers });
         const data = await res.json();
         
         if (data.message) {
@@ -96,7 +97,7 @@ export default function SeekerDashboard() {
           }
         }
       } else {
-        const res = await fetch('http://localhost:5000/api/applications/seeker', { headers });
+        const res = await fetch(`${API_BASE_URL}/api/applications/seeker`, { headers });
         const data = await res.json();
         if (Array.isArray(data)) {
           setApplications(data);
@@ -123,7 +124,7 @@ export default function SeekerDashboard() {
     setApplying(true);
     setApplyError('');
     try {
-      const res = await fetch('http://localhost:5000/api/applications', {
+      const res = await fetch(`${API_BASE_URL}/api/applications`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

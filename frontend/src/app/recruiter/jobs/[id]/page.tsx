@@ -4,6 +4,7 @@ import { useState, useEffect, use } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { FiArrowLeft, FiMapPin, FiCalendar, FiDollarSign, FiClock, FiFileText, FiZap, FiCheckCircle, FiXCircle, FiPhone, FiMail, FiExternalLink, FiChevronDown, FiChevronUp } from 'react-icons/fi';
+import { API_BASE_URL } from '@/config';
 
 interface Profile {
   fullName: string;
@@ -71,14 +72,14 @@ export default function JobApplicantsPage({ params }: { params: Promise<{ id: st
       };
 
       // Fetch job details
-      const jobRes = await fetch(`http://localhost:5000/api/jobs/${id}`, { headers });
+      const jobRes = await fetch(`${API_BASE_URL}/api/jobs/${id}`, { headers });
       if (jobRes.ok) {
         const jobData = await jobRes.json();
         setJob(jobData);
       }
 
       // Fetch applicants
-      const appRes = await fetch(`http://localhost:5000/api/applications/job/${id}`, { headers });
+      const appRes = await fetch(`${API_BASE_URL}/api/applications/job/${id}`, { headers });
       if (appRes.ok) {
         const appData = await appRes.json();
         setApplicants(appData);
@@ -97,7 +98,7 @@ export default function JobApplicantsPage({ params }: { params: Promise<{ id: st
   const handleStatusChange = async (appId: string, newStatus: string) => {
     setUpdatingStatusId(appId);
     try {
-      const res = await fetch(`http://localhost:5000/api/applications/${appId}/status`, {
+      const res = await fetch(`${API_BASE_URL}/api/applications/${appId}/status`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -332,7 +333,7 @@ export default function JobApplicantsPage({ params }: { params: Promise<{ id: st
                     {app.resumeUrl && (
                       <div style={{ display: 'flex', justifyContent: 'flex-start' }}>
                         <a 
-                          href={`http://localhost:5000${app.resumeUrl}`} 
+                          href={`${API_BASE_URL}${app.resumeUrl}`} 
                           target="_blank" 
                           rel="noreferrer" 
                           className="btn btn-secondary"

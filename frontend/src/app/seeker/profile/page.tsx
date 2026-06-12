@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { FiUploadCloud, FiUser, FiBriefcase, FiBookOpen, FiActivity, FiSave, FiAlertCircle, FiCheck, FiFileText } from 'react-icons/fi';
+import { API_BASE_URL } from '@/config';
 
 export default function SeekerProfile() {
   const router = useRouter();
@@ -34,7 +35,7 @@ export default function SeekerProfile() {
 
   const fetchProfile = async () => {
     try {
-      const res = await fetch('http://localhost:5000/api/profile', {
+      const res = await fetch(`${API_BASE_URL}/api/profile`, {
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`
         }
@@ -68,7 +69,7 @@ export default function SeekerProfile() {
     setMessage(null);
 
     try {
-      const res = await fetch('http://localhost:5000/api/profile/upload-resume', {
+      const res = await fetch(`${API_BASE_URL}/api/profile/upload-resume`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`
@@ -107,7 +108,7 @@ export default function SeekerProfile() {
     setParsedNotice(false);
 
     try {
-      const res = await fetch('http://localhost:5000/api/profile', {
+      const res = await fetch(`${API_BASE_URL}/api/profile`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -231,7 +232,7 @@ export default function SeekerProfile() {
                 <FiFileText style={{ color: 'var(--accent)' }} />
                 <span>Resume file attached</span>
                 <a 
-                  href={`http://localhost:5000${resumeUrl}`} 
+                  href={`${API_BASE_URL}${resumeUrl}`} 
                   target="_blank" 
                   rel="noreferrer" 
                   style={{ color: 'var(--primary)', textDecoration: 'underline' }}
