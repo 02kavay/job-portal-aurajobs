@@ -24,6 +24,16 @@ async function main() {
   });
   console.log('✅ Created Recruiter: recruiter@example.com');
 
+  // 1b. Create Admin
+  const admin = await prisma.user.create({
+    data: {
+      email: 'admin@example.com',
+      passwordHash,
+      role: 'ADMIN'
+    }
+  });
+  console.log('✅ Created Admin: admin@example.com');
+
   // 2. Create Seeker & Seeker Profile
   const seeker = await prisma.user.create({
     data: {

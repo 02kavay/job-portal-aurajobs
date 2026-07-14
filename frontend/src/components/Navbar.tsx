@@ -50,7 +50,7 @@ export default function Navbar() {
       <div className="nav-links">
         {user ? (
           <>
-            {user.role === 'SEEKER' ? (
+            {user.role === 'SEEKER' && (
               <>
                 <Link 
                   href="/seeker/dashboard" 
@@ -69,7 +69,8 @@ export default function Navbar() {
                   </span>
                 </Link>
               </>
-            ) : (
+            )}
+            {user.role === 'RECRUITER' && (
               <>
                 <Link 
                   href="/recruiter/dashboard" 
@@ -77,6 +78,18 @@ export default function Navbar() {
                 >
                   <span style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
                     <FiSliders /> Recruiter Portal
+                  </span>
+                </Link>
+              </>
+            )}
+            {user.role === 'ADMIN' && (
+              <>
+                <Link 
+                  href="/admin/dashboard" 
+                  className={`nav-link ${pathname === '/admin/dashboard' ? 'active' : ''}`}
+                >
+                  <span style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
+                    <FiSliders /> Admin Portal
                   </span>
                 </Link>
               </>

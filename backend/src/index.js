@@ -9,6 +9,8 @@ import authRoutes from './routes/auth.js';
 import profileRoutes from './routes/profile.js';
 import jobRoutes from './routes/jobs.js';
 import applicationRoutes from './routes/applications.js';
+import adminRoutes from './routes/admin.js';
+import { authenticateToken, authorizeRole } from './middleware/auth.js';
 
 dotenv.config();
 
@@ -34,6 +36,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/profile', profileRoutes);
 app.use('/api/jobs', jobRoutes);
 app.use('/api/applications', applicationRoutes);
+app.use('/api/admin', authenticateToken, authorizeRole('ADMIN'), adminRoutes);
 
 // Health check endpoint
 app.get('/health', (req, res) => {
