@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { FiMail, FiLock, FiUserCheck, FiUsers, FiUser } from 'react-icons/fi';
+import { FiMail, FiLock, FiUserCheck, FiUsers, FiUser, FiSliders } from 'react-icons/fi';
 import { API_BASE_URL } from '@/config';
 
 export default function Register() {
@@ -12,7 +12,7 @@ export default function Register() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const [role, setRole] = useState<'SEEKER' | 'RECRUITER'>('SEEKER');
+  const [role, setRole] = useState<'SEEKER' | 'RECRUITER' | 'ADMIN'>('SEEKER');
   
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
@@ -47,6 +47,8 @@ export default function Register() {
         // Redirect based on role
         if (data.user.role === 'SEEKER') {
           router.push('/seeker/dashboard');
+        } else if (data.user.role === 'ADMIN') {
+          router.push('/admin/dashboard');
         } else {
           router.push('/recruiter/dashboard');
         }
@@ -96,12 +98,12 @@ export default function Register() {
         <form onSubmit={handleSubmit}>
           
           {/* Role Toggle Selector */}
-          <div style={{ display: 'flex', gap: '16px', marginBottom: '24px' }}>
+          <div style={{ display: 'flex', gap: '12px', marginBottom: '24px' }}>
             <div 
               onClick={() => setRole('SEEKER')}
               style={{
                 flex: 1,
-                padding: '16px',
+                padding: '12px',
                 textAlign: 'center',
                 borderRadius: '12px',
                 border: '1px solid',
@@ -111,15 +113,15 @@ export default function Register() {
                 transition: 'all 0.2s'
               }}
             >
-              <FiUser style={{ fontSize: '1.5rem', marginBottom: '8px', color: role === 'SEEKER' ? 'var(--primary)' : 'var(--text-dark)' }} />
-              <h4 style={{ fontSize: '0.95rem' }}>Job Seeker</h4>
+              <FiUser style={{ fontSize: '1.25rem', marginBottom: '4px', color: role === 'SEEKER' ? 'var(--primary)' : 'var(--text-dark)' }} />
+              <h4 style={{ fontSize: '0.85rem' }}>Job Seeker</h4>
             </div>
 
             <div 
               onClick={() => setRole('RECRUITER')}
               style={{
                 flex: 1,
-                padding: '16px',
+                padding: '12px',
                 textAlign: 'center',
                 borderRadius: '12px',
                 border: '1px solid',
@@ -129,8 +131,26 @@ export default function Register() {
                 transition: 'all 0.2s'
               }}
             >
-              <FiUsers style={{ fontSize: '1.5rem', marginBottom: '8px', color: role === 'RECRUITER' ? 'var(--primary)' : 'var(--text-dark)' }} />
-              <h4 style={{ fontSize: '0.95rem' }}>Recruiter</h4>
+              <FiUsers style={{ fontSize: '1.25rem', marginBottom: '4px', color: role === 'RECRUITER' ? 'var(--primary)' : 'var(--text-dark)' }} />
+              <h4 style={{ fontSize: '0.85rem' }}>Recruiter</h4>
+            </div>
+
+            <div 
+              onClick={() => setRole('ADMIN')}
+              style={{
+                flex: 1,
+                padding: '12px',
+                textAlign: 'center',
+                borderRadius: '12px',
+                border: '1px solid',
+                borderColor: role === 'ADMIN' ? 'var(--primary)' : 'var(--border-glow)',
+                background: role === 'ADMIN' ? 'rgba(99, 102, 241, 0.15)' : 'rgba(255, 255, 255, 0.02)',
+                cursor: 'pointer',
+                transition: 'all 0.2s'
+              }}
+            >
+              <FiSliders style={{ fontSize: '1.25rem', marginBottom: '4px', color: role === 'ADMIN' ? 'var(--primary)' : 'var(--text-dark)' }} />
+              <h4 style={{ fontSize: '0.85rem' }}>Admin</h4>
             </div>
           </div>
 

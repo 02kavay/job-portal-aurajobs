@@ -16,8 +16,8 @@ router.post('/register', async (req, res) => {
       return res.status(400).json({ error: 'Email, password, and role are required.' });
     }
 
-    if (role !== 'SEEKER' && role !== 'RECRUITER') {
-      return res.status(400).json({ error: 'Invalid role. Must be SEEKER or RECRUITER.' });
+    if (role !== 'SEEKER' && role !== 'RECRUITER' && role !== 'ADMIN') {
+      return res.status(400).json({ error: 'Invalid role. Must be SEEKER, RECRUITER, or ADMIN.' });
     }
 
     // Check if user exists
