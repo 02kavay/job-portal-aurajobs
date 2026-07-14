@@ -61,8 +61,8 @@ async function main() {
       title: 'Senior Frontend Engineer (React)',
       description: 'We are looking for a Senior Frontend Engineer to join our core team. You will lead the development of our dashboard, optimize application performance, and design custom CSS layouts.',
       requirements: 'React, TypeScript, CSS, SASS, Git, HTML',
-      location: 'San Francisco, CA',
-      salaryRange: '$120,000 - $150,000',
+      location: 'Bangalore, India',
+      salaryRange: '₹15,00,000 - ₹24,00,000',
       jobType: 'Full-time',
       experienceRequired: 5
     },
@@ -70,8 +70,8 @@ async function main() {
       title: 'Backend Engineer (Node.js & Postgres)',
       description: 'Join our backend infrastructure team. You will build and scale REST APIs, design database schemas, optimize queries, and implement authentication and file upload services.',
       requirements: 'Node.js, Express, PostgreSQL, SQL, REST API, Git',
-      location: 'Remote',
-      salaryRange: '$100,000 - $135,000',
+      location: 'Hyderabad, India',
+      salaryRange: '₹12,00,000 - ₹18,00,000',
       jobType: 'Remote',
       experienceRequired: 3
     },
@@ -79,8 +79,8 @@ async function main() {
       title: 'AI Product Specialist',
       description: 'We are seeking an engineer to build AI-driven features. You will design recommendation pipelines, interface with LLM APIs, and implement machine learning features in python.',
       requirements: 'Python, AI, Machine Learning, REST API',
-      location: 'New York, NY',
-      salaryRange: '$140,000 - $180,000',
+      location: 'Pune, India',
+      salaryRange: '₹18,00,000 - ₹28,00,000',
       jobType: 'Full-time',
       experienceRequired: 4
     },
@@ -88,8 +88,8 @@ async function main() {
       title: 'Junior Web Developer',
       description: 'Great entry-level opportunity for a passionate web developer! You will work closely with senior engineers to implement UI features and fix bugs. Great learning environment.',
       requirements: 'HTML, CSS, JavaScript, Git',
-      location: 'Austin, TX',
-      salaryRange: '$65,000 - $80,000',
+      location: 'Remote (India)',
+      salaryRange: '₹4,50,000 - ₹7,00,000',
       jobType: 'Full-time',
       experienceRequired: 1
     }

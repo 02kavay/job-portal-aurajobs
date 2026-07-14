@@ -290,7 +290,7 @@ export default function Home() {
                       <FiMapPin /> {job.location}
                     </span>
                     <span style={{ display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
-                      <FiDollarSign /> {job.salaryRange}
+                      <span style={{ fontWeight: 'bold' }}>₹</span> {job.salaryRange.replace(/^[₹$]/, '')}
                     </span>
                     <span style={{ display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
                       <FiClock /> {job.experienceRequired === 0 ? 'Entry Level' : `${job.experienceRequired}+ yrs`}
@@ -325,7 +325,7 @@ export default function Home() {
                         <FiMapPin /> {selectedJob.location}
                       </span>
                       <span style={{ display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
-                        <FiDollarSign /> {selectedJob.salaryRange}
+                        <span style={{ fontWeight: 'bold' }}>₹</span> {selectedJob.salaryRange.replace(/^[₹$]/, '')}
                       </span>
                     </div>
                   </div>

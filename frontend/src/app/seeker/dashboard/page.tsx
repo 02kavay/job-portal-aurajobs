@@ -326,7 +326,7 @@ export default function SeekerDashboard() {
                           <FiMapPin /> {selectedJob.location}
                         </span>
                         <span style={{ display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
-                          <FiDollarSign /> {selectedJob.salaryRange}
+                          <span style={{ fontWeight: 'bold' }}>₹</span> {selectedJob.salaryRange.replace(/^[₹$]/, '')}
                         </span>
                       </div>
                     </div>

@@ -299,7 +299,7 @@ export default function RecruiterDashboard() {
                   <label className="form-label">Location</label>
                   <input 
                     type="text" 
-                    placeholder="e.g. San Francisco, CA / Remote" 
+                    placeholder="e.g. Bangalore, India / Remote" 
                     className="form-input" 
                     value={location}
                     onChange={(e) => setLocation(e.target.value)}
@@ -311,7 +311,7 @@ export default function RecruiterDashboard() {
                   <label className="form-label">Salary Range</label>
                   <input 
                     type="text" 
-                    placeholder="e.g. $100,000 - $130,000" 
+                    placeholder="e.g. ₹8,00,000 - ₹12,00,000" 
                     className="form-input" 
                     value={salaryRange}
                     onChange={(e) => setSalaryRange(e.target.value)}
