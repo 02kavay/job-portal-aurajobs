@@ -224,7 +224,7 @@ export default function RecruiterDashboard() {
 
               {/* Action */}
               <div style={{ flex: '1', minWidth: '120px', display: 'flex', justifyContent: 'flex-end' }}>
-                <Link href={`/recruiter/jobs/${job.id}`} className="btn btn-secondary" style={{ display: 'flex', gap: '6px', fontSize: '0.85rem', padding: '10px 18px' }}>
+                <Link href={`/recruiter/jobs/?id=${job.id}`} className="btn btn-secondary" style={{ display: 'flex', gap: '6px', fontSize: '0.85rem', padding: '10px 18px' }}>
                   Review Applicants <FiChevronRight />
                 </Link>
               </div>

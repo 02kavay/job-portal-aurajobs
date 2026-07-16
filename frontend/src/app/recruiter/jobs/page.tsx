@@ -1,7 +1,7 @@
 'use client';
 
-import { useState, useEffect, use } from 'react';
-import { useRouter } from 'next/navigation';
+import { useState, useEffect, Suspense } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { FiArrowLeft, FiMapPin, FiCalendar, FiDollarSign, FiClock, FiFileText, FiZap, FiCheckCircle, FiXCircle, FiPhone, FiMail, FiExternalLink, FiChevronDown, FiChevronUp } from 'react-icons/fi';
 import { API_BASE_URL } from '@/config';
@@ -43,9 +43,22 @@ interface Job {
   experienceRequired: number;
 }
 
-export default function JobApplicantsPage({ params }: { params: Promise<{ id: string }> }) {
-  const { id } = use(params);
+export default function JobApplicantsPage() {
+  return (
+    <Suspense fallback={
+      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '80vh' }}>
+        <div className="spinner" />
+      </div>
+    }>
+      <JobApplicantsContent />
+    </Suspense>
+  );
+}
+
+function JobApplicantsContent() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const id = searchParams.get('id') || '';
   
   // Data States
   const [job, setJob] = useState<Job | null>(null);
@@ -62,7 +75,9 @@ export default function JobApplicantsPage({ params }: { params: Promise<{ id: st
       router.push('/login');
       return;
     }
-    fetchJobAndApplicants();
+    if (id) {
+      fetchJobAndApplicants();
+    }
   }, [id]);
 
   const fetchJobAndApplicants = async () => {
