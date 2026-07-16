@@ -184,12 +184,12 @@ function LoginForm() {
             </button>
             <button 
               type="button" 
-              onClick={() => { setEmail('admin@example.com'); setPassword('password123'); }}
+              onClick={() => { setEmail('admin1@example.com'); setPassword('password123'); }}
               className="btn btn-secondary"
               style={{ fontSize: '0.8rem', padding: '6px 12px', display: 'flex', justifyContent: 'space-between', borderRadius: '8px' }}
             >
               <span>Admin</span>
-              <span style={{ color: 'var(--text-dark)' }}>admin@example.com</span>
+              <span style={{ color: 'var(--text-dark)' }}>admin1@example.com</span>
             </button>
           </div>
         </div>
