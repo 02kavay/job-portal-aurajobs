@@ -54,6 +54,8 @@ function LoginForm() {
           router.push('/');
         } else if (data.user.role === 'SEEKER') {
           router.push('/seeker/dashboard');
+        } else if (data.user.role === 'ADMIN') {
+          router.push('/admin/dashboard');
         } else {
           router.push('/recruiter/dashboard');
         }
@@ -149,6 +151,48 @@ function LoginForm() {
             Register here
           </Link>
         </p>
+
+        {/* Demo Credentials Box */}
+        <div style={{
+          marginTop: '28px',
+          padding: '16px',
+          borderRadius: '12px',
+          background: 'rgba(255, 255, 255, 0.02)',
+          border: '1px dashed var(--border-glow)'
+        }}>
+          <h4 style={{ fontSize: '0.85rem', marginBottom: '10px', color: 'var(--text-muted)', textAlign: 'center' }}>
+            Demo Credentials (Click to Autofill):
+          </h4>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+            <button 
+              type="button" 
+              onClick={() => { setEmail('seeker@example.com'); setPassword('password123'); }}
+              className="btn btn-secondary"
+              style={{ fontSize: '0.8rem', padding: '6px 12px', display: 'flex', justifyContent: 'space-between', borderRadius: '8px' }}
+            >
+              <span>Seeker</span>
+              <span style={{ color: 'var(--text-dark)' }}>seeker@example.com</span>
+            </button>
+            <button 
+              type="button" 
+              onClick={() => { setEmail('recruiter@example.com'); setPassword('password123'); }}
+              className="btn btn-secondary"
+              style={{ fontSize: '0.8rem', padding: '6px 12px', display: 'flex', justifyContent: 'space-between', borderRadius: '8px' }}
+            >
+              <span>Recruiter</span>
+              <span style={{ color: 'var(--text-dark)' }}>recruiter@example.com</span>
+            </button>
+            <button 
+              type="button" 
+              onClick={() => { setEmail('admin@example.com'); setPassword('password123'); }}
+              className="btn btn-secondary"
+              style={{ fontSize: '0.8rem', padding: '6px 12px', display: 'flex', justifyContent: 'space-between', borderRadius: '8px' }}
+            >
+              <span>Admin</span>
+              <span style={{ color: 'var(--text-dark)' }}>admin@example.com</span>
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   );
