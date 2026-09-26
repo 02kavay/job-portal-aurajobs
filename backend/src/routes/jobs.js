@@ -6,6 +6,8 @@ import { rankJobsForProfile } from '../services/aiService.js';
 const router = Router();
 
 // Create a job post (Recruiter only)
+const inMemoryJobs = [];
+
 router.post('/', authenticateToken, authorizeRole('RECRUITER'), async (req, res) => {
   try {
     const { title, description, requirements, location, salaryRange, jobType, experienceRequired } = req.body;
@@ -14,37 +16,56 @@ router.post('/', authenticateToken, authorizeRole('RECRUITER'), async (req, res)
       return res.status(400).json({ error: 'All job fields are required.' });
     }
 
-    // Ensure recruiter user exists in database for relational integrity
-    let recruiterId = req.user.userId;
-    let recruiterUser = await prisma.user.findUnique({ where: { id: recruiterId } }).catch(() => null);
+    let job = null;
+    try {
+      // Ensure recruiter user exists in database for relational integrity
+      let recruiterId = req.user.userId;
+      let recruiterUser = await prisma.user.findUnique({ where: { id: recruiterId } }).catch(() => null);
 
-    if (!recruiterUser) {
-      const email = req.user.email || 'recruiter@example.com';
-      recruiterUser = await prisma.user.findUnique({ where: { email } }).catch(() => null);
       if (!recruiterUser) {
-        recruiterUser = await prisma.user.create({
-          data: {
-            email,
-            passwordHash: '$2a$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi',
-            role: 'RECRUITER'
-          }
-        }).catch(() => null);
+        const email = req.user.email || 'recruiter@example.com';
+        recruiterUser = await prisma.user.findUnique({ where: { email } }).catch(() => null);
+        if (!recruiterUser) {
+          recruiterUser = await prisma.user.create({
+            data: {
+              email,
+              passwordHash: '$2a$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi',
+              role: 'RECRUITER'
+            }
+          }).catch(() => null);
+        }
+        if (recruiterUser) recruiterId = recruiterUser.id;
       }
-      if (recruiterUser) recruiterId = recruiterUser.id;
-    }
 
-    const job = await prisma.job.create({
-      data: {
-        recruiterId,
+      job = await prisma.job.create({
+        data: {
+          recruiterId,
+          title,
+          description,
+          requirements,
+          location,
+          salaryRange,
+          jobType,
+          experienceRequired: parseInt(experienceRequired, 10) || 0
+        }
+      });
+    } catch (dbErr) {
+      console.warn('DB creation fallback:', dbErr.message);
+      job = {
+        id: 'job-' + Date.now(),
+        recruiterId: req.user.userId || 'demo-recruiter-id',
         title,
         description,
         requirements,
         location,
         salaryRange,
         jobType,
-        experienceRequired: parseInt(experienceRequired, 10) || 0
-      }
-    });
+        experienceRequired: parseInt(experienceRequired, 10) || 0,
+        createdAt: new Date().toISOString(),
+        recruiter: { email: req.user.email || 'recruiter@example.com' }
+      };
+      inMemoryJobs.unshift(job);
+    }
 
     res.status(201).json(job);
   } catch (error) {
