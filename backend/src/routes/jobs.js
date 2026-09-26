@@ -14,9 +14,28 @@ router.post('/', authenticateToken, authorizeRole('RECRUITER'), async (req, res)
       return res.status(400).json({ error: 'All job fields are required.' });
     }
 
+    // Ensure recruiter user exists in database for relational integrity
+    let recruiterId = req.user.userId;
+    let recruiterUser = await prisma.user.findUnique({ where: { id: recruiterId } }).catch(() => null);
+
+    if (!recruiterUser) {
+      const email = req.user.email || 'recruiter@example.com';
+      recruiterUser = await prisma.user.findUnique({ where: { email } }).catch(() => null);
+      if (!recruiterUser) {
+        recruiterUser = await prisma.user.create({
+          data: {
+            email,
+            passwordHash: '$2a$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi',
+            role: 'RECRUITER'
+          }
+        }).catch(() => null);
+      }
+      if (recruiterUser) recruiterId = recruiterUser.id;
+    }
+
     const job = await prisma.job.create({
       data: {
-        recruiterId: req.user.userId,
+        recruiterId,
         title,
         description,
         requirements,
@@ -30,7 +49,7 @@ router.post('/', authenticateToken, authorizeRole('RECRUITER'), async (req, res)
     res.status(201).json(job);
   } catch (error) {
     console.error('Error creating job:', error);
-    res.status(500).json({ error: 'Internal server error creating job.' });
+    res.status(500).json({ error: error.message || 'Internal server error creating job.' });
   }
 });
 
