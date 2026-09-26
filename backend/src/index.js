@@ -17,10 +17,16 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// Ensure uploads directory exists
-const uploadDir = path.join(process.cwd(), 'uploads', 'resumes');
-if (!fs.existsSync(uploadDir)) {
-  fs.mkdirSync(uploadDir, { recursive: true });
+// Ensure uploads directory exists safely
+try {
+  const uploadDir = process.env.VERCEL 
+    ? path.join('/tmp', 'uploads', 'resumes') 
+    : path.join(process.cwd(), 'uploads', 'resumes');
+  if (!fs.existsSync(uploadDir)) {
+    fs.mkdirSync(uploadDir, { recursive: true });
+  }
+} catch (e) {
+  console.warn('Could not create upload directory:', e.message);
 }
 
 // Middlewares
