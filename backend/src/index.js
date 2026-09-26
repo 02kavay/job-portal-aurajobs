@@ -38,6 +38,23 @@ app.use('/api/jobs', jobRoutes);
 app.use('/api/applications', applicationRoutes);
 app.use('/api/admin', authenticateToken, authorizeRole('ADMIN'), adminRoutes);
 
+// Root status endpoint
+app.get('/', (req, res) => {
+  res.json({
+    name: 'AuraJobs Backend API',
+    status: 'Running',
+    message: 'Welcome to AuraJobs Job Portal API',
+    healthCheck: '/health',
+    endpoints: {
+      auth: '/api/auth',
+      profile: '/api/profile',
+      jobs: '/api/jobs',
+      applications: '/api/applications',
+      admin: '/api/admin'
+    }
+  });
+});
+
 // Health check endpoint
 app.get('/health', (req, res) => {
   res.json({ status: 'OK', timestamp: new Date() });
@@ -51,9 +68,13 @@ app.use((err, req, res, next) => {
   });
 });
 
-app.listen(PORT, () => {
-  console.log(`========================================`);
-  console.log(`🚀 Job Portal API running on port ${PORT}`);
-  console.log(`📁 Static files served at http://localhost:${PORT}/uploads`);
-  console.log(`========================================`);
-});
+if (!process.env.VERCEL) {
+  app.listen(PORT, () => {
+    console.log(`========================================`);
+    console.log(`🚀 Job Portal API running on port ${PORT}`);
+    console.log(`📁 Static files served at http://localhost:${PORT}/uploads`);
+    console.log(`========================================`);
+  });
+}
+
+export default app;
