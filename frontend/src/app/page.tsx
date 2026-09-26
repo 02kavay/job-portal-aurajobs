@@ -157,32 +157,23 @@ export default function Home() {
           display: 'inline-flex', 
           alignItems: 'center', 
           gap: '8px', 
-          background: 'rgba(99, 102, 241, 0.1)', 
-          border: '1px solid rgba(99, 102, 241, 0.25)', 
+          background: 'var(--badge-pill-bg)', 
+          border: '1px solid var(--border-glow)', 
           padding: '8px 16px', 
           borderRadius: '30px', 
           marginBottom: '24px',
           fontSize: '0.9rem',
-          color: '#a5b4fc',
+          color: 'var(--badge-pill-color)',
           fontFamily: 'var(--font-heading)',
-          fontWeight: 500
+          fontWeight: 600
         }}>
           <FiZap /> Real-time AI Resume Matching enabled
         </div>
 
-        <h1 style={{ 
-          fontSize: '3.6rem', 
-          lineHeight: '1.1',
-          marginBottom: '20px',
-          fontWeight: 800,
-          background: 'linear-gradient(135deg, #ffffff 40%, #818cf8 80%, #22d3ee 100%)',
-          WebkitBackgroundClip: 'text',
-          WebkitTextFillColor: 'transparent',
-          fontFamily: 'var(--font-heading)'
-        }}>
+        <h1 className="hero-title">
           Unlock Your Aura.<br />Land Your Dream Job.
         </h1>
-        <p style={{ fontSize: '1.2rem', maxWidth: '600px', margin: '0 auto 40px auto' }}>
+        <p style={{ fontSize: '1.2rem', maxWidth: '600px', margin: '0 auto 40px auto', color: 'var(--text-muted)' }}>
           Discover thousands of job postings curated and ranked instantly by our advanced content-based AI engine.
         </p>
 
@@ -194,8 +185,7 @@ export default function Home() {
           display: 'flex', 
           flexWrap: 'wrap',
           gap: '12px',
-          borderRadius: '20px',
-          background: 'rgba(18, 24, 54, 0.8)'
+          borderRadius: '20px'
         }}>
           <div style={{ flex: '2', minWidth: '220px', position: 'relative' }}>
             <FiSearch style={{ position: 'absolute', left: '16px', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-dark)' }} />
@@ -203,7 +193,7 @@ export default function Home() {
               type="text" 
               placeholder="Job title, keywords, or skills..." 
               className="form-input" 
-              style={{ paddingLeft: '44px', background: 'rgba(255, 255, 255, 0.05)', border: '1px solid rgba(255, 255, 255, 0.1)' }}
+              style={{ paddingLeft: '44px' }}
               value={search}
               onChange={(e) => setSearch(e.target.value)}
             />
@@ -214,7 +204,7 @@ export default function Home() {
               type="text" 
               placeholder="City or 'Remote'..." 
               className="form-input" 
-              style={{ paddingLeft: '44px', background: 'rgba(255, 255, 255, 0.05)', border: '1px solid rgba(255, 255, 255, 0.1)' }}
+              style={{ paddingLeft: '44px' }}
               value={location}
               onChange={(e) => setLocation(e.target.value)}
             />
@@ -222,7 +212,6 @@ export default function Home() {
           <div style={{ minWidth: '140px' }}>
             <select 
               className="form-select" 
-              style={{ background: 'rgba(255, 255, 255, 0.05)', border: '1px solid rgba(255, 255, 255, 0.1)' }}
               value={jobType}
               onChange={(e) => {
                 setJobType(e.target.value);
