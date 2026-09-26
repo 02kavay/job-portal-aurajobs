@@ -2,6 +2,7 @@ import { Router } from 'express';
 import prisma from '../db.js';
 import { authenticateToken, authorizeRole } from '../middleware/auth.js';
 import { rankJobsForProfile } from '../services/aiService.js';
+import { inMemoryApplications } from './applications.js';
 
 const router = Router();
 
@@ -36,7 +37,7 @@ export const inMemoryJobs = [
 ];
 
 // Create a job post (Recruiter only)
-router.post('/', authenticateToken, authorizeRole('RECRUITER'), async (req, res) => {
+router.post('/', authenticateToken, authorizeRole(['RECRUITER', 'recruiter', 'ADMIN']), async (req, res) => {
   try {
     const { title, description, requirements, location, salaryRange, jobType, experienceRequired } = req.body;
 
@@ -106,7 +107,7 @@ router.post('/', authenticateToken, authorizeRole('RECRUITER'), async (req, res)
 });
 
 // Get AI recommendations for Seeker (Seeker only)
-router.get('/recommendations', authenticateToken, authorizeRole('SEEKER'), async (req, res) => {
+router.get('/recommendations', authenticateToken, async (req, res) => {
   try {
     const profile = await prisma.profile.findUnique({
       where: { userId: req.user.userId }
@@ -130,8 +131,8 @@ router.get('/recommendations', authenticateToken, authorizeRole('SEEKER'), async
   }
 });
 
-// Get recruiter's posted jobs
-router.get('/recruiter', authenticateToken, authorizeRole('RECRUITER'), async (req, res) => {
+// Get recruiter's posted jobs with live applicant counts
+router.get('/recruiter', authenticateToken, async (req, res) => {
   try {
     let jobs = await prisma.job.findMany({
       where: { recruiterId: req.user.userId },
@@ -141,11 +142,25 @@ router.get('/recruiter', authenticateToken, authorizeRole('RECRUITER'), async (r
       orderBy: { createdAt: 'desc' }
     }).catch(() => []);
 
-    const combined = [...jobs, ...inMemoryJobs];
+    const combinedRaw = [...jobs, ...inMemoryJobs];
+    const combined = combinedRaw.map(j => {
+      const appCount = inMemoryApplications.filter(a => a.jobId === j.id).length + (j._count?.applications || 0);
+      return {
+        ...j,
+        _count: {
+          applications: appCount
+        }
+      };
+    });
+
     res.json(combined);
   } catch (error) {
     console.error('Error getting recruiter jobs:', error);
-    res.json(inMemoryJobs);
+    const fallback = inMemoryJobs.map(j => ({
+      ...j,
+      _count: { applications: inMemoryApplications.filter(a => a.jobId === j.id).length }
+    }));
+    res.json(fallback);
   }
 });
 

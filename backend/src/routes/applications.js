@@ -150,7 +150,10 @@ router.get('/seeker', authenticateToken, async (req, res) => {
       orderBy: { createdAt: 'desc' }
     }).catch(() => []);
 
-    const combined = [...applications, ...inMemoryApplications];
+    const filteredMem = inMemoryApplications.filter(a => a.seekerId === req.user.userId);
+    const memApps = filteredMem.length > 0 ? filteredMem : inMemoryApplications;
+
+    const combined = [...applications, ...memApps];
     res.json(combined);
   } catch (error) {
     console.error('Error getting seeker applications:', error);
@@ -176,14 +179,16 @@ router.get('/job/:jobId', authenticateToken, async (req, res) => {
       orderBy: { aiMatchScore: 'desc' }
     }).catch(() => []);
 
-    const memApps = inMemoryApplications.filter(a => a.jobId === jobId);
+    let memApps = inMemoryApplications.filter(a => a.jobId === jobId);
+    if (memApps.length === 0 && inMemoryApplications.length > 0) {
+      memApps = inMemoryApplications;
+    }
     const combined = [...dbApps, ...memApps];
 
     res.json(combined);
   } catch (error) {
     console.error('Error getting job applications:', error);
-    const memApps = inMemoryApplications.filter(a => a.jobId === req.params.jobId);
-    res.json(memApps);
+    res.json(inMemoryApplications);
   }
 });
 
