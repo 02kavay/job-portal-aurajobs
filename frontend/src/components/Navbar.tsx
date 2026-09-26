@@ -3,20 +3,14 @@
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
-import { FiBriefcase, FiUser, FiLogOut, FiLayout, FiSliders, FiSun, FiMoon } from 'react-icons/fi';
+import { FiBriefcase, FiUser, FiLogOut, FiLayout, FiSliders } from 'react-icons/fi';
 
 export default function Navbar() {
   const [user, setUser] = useState<{ email: string; role: string } | null>(null);
-  const [theme, setTheme] = useState<'dark' | 'light'>('dark');
   const router = useRouter();
   const pathname = usePathname();
 
   useEffect(() => {
-    // Read saved theme from localStorage
-    const savedTheme = (localStorage.getItem('theme') as 'dark' | 'light') || 'dark';
-    setTheme(savedTheme);
-    document.documentElement.setAttribute('data-theme', savedTheme);
-
     // Read user from localStorage on client side mount
     const storedUser = localStorage.getItem('user');
     if (storedUser) {
@@ -36,13 +30,6 @@ export default function Navbar() {
     window.addEventListener('auth-change', handleAuthChange);
     return () => window.removeEventListener('auth-change', handleAuthChange);
   }, []);
-
-  const toggleTheme = () => {
-    const nextTheme = theme === 'dark' ? 'light' : 'dark';
-    setTheme(nextTheme);
-    localStorage.setItem('theme', nextTheme);
-    document.documentElement.setAttribute('data-theme', nextTheme);
-  };
 
   const handleLogout = () => {
     localStorage.removeItem('token');
@@ -115,31 +102,6 @@ export default function Navbar() {
                 {user.email.split('@')[0]}
               </span>
 
-              {/* Theme Toggle Button */}
-              <button
-                onClick={toggleTheme}
-                className="btn btn-secondary"
-                title={`Switch to ${theme === 'dark' ? 'Light' : 'Dark'} Mode`}
-                style={{
-                  padding: '8px 14px',
-                  borderRadius: '10px',
-                  fontSize: '0.85rem',
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: '6px'
-                }}
-              >
-                {theme === 'dark' ? (
-                  <>
-                    <FiSun style={{ color: '#fbbf24' }} /> <span>Light</span>
-                  </>
-                ) : (
-                  <>
-                    <FiMoon style={{ color: '#6366f1' }} /> <span>Dark</span>
-                  </>
-                )}
-              </button>
-
               <button 
                 onClick={handleLogout} 
                 className="btn btn-secondary" 
@@ -154,32 +116,6 @@ export default function Navbar() {
             <Link href="/" className={`nav-link ${pathname === '/' ? 'active' : ''}`}>
               Find Jobs
             </Link>
-
-            {/* Theme Toggle Button for logged out users */}
-            <button
-              onClick={toggleTheme}
-              className="btn btn-secondary"
-              title={`Switch to ${theme === 'dark' ? 'Light' : 'Dark'} Mode`}
-              style={{
-                padding: '8px 14px',
-                borderRadius: '10px',
-                fontSize: '0.85rem',
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '6px'
-              }}
-            >
-              {theme === 'dark' ? (
-                <>
-                  <FiSun style={{ color: '#fbbf24' }} /> <span>Light</span>
-                </>
-              ) : (
-                <>
-                  <FiMoon style={{ color: '#6366f1' }} /> <span>Dark</span>
-                </>
-              )}
-            </button>
-
             <Link href="/login" className="btn btn-secondary" style={{ padding: '10px 20px', borderRadius: '10px' }}>
               Sign In
             </Link>
