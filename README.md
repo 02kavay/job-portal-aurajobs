@@ -4,6 +4,13 @@ AuraJobs is a high-performance, modern job search and recruiting platform built 
 
 ---
 
+## 🌐 Live Deployments
+* **Frontend Link**: [https://aurajobs-frontend.vercel.app/](https://aurajobs-frontend.vercel.app/)
+* **Backend Link**: [https://aurajobs-backend.vercel.app/](https://aurajobs-backend.vercel.app/)
+* **Health Check Link**: [https://aurajobs-backend.vercel.app/health](https://aurajobs-backend.vercel.app/health)
+
+---
+
 ## 🚀 Running the Project Locally
 
 ### 1. Start the Backend API
